@@ -1,0 +1,19 @@
+[build-system]
+requires = ["scikit-build-core>=1.0", "pybind11>=3.0", "pybind11-stubgen>=2.5", "numpy>=2.0"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "dngparse"
+version = "0.1.0"
+description = "Fast DNG parser for numpy datasets (DJI Pocket 4 specialized)"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pybind11-stubgen>=2.5", "build", "scikit-build-core"]
+
+[tool.scikit-build]
+cmake.version = ">=3.18"
+ninja.make-fallback = true
