@@ -37,25 +37,35 @@ endif()
 # --- Generate type stubs after compilation -----------------------------------
 # Runs pybind11-stubgen on the built .pyd, producing _dng.pyi next to the
 # Python package sources so that install(DIRECTORY) picks it up automatically.
-add_custom_command(TARGET _dng POST_BUILD
-    COMMAND ${PYTHON_EXECUTABLE} -m pybind11_stubgen _dng
-        --output-dir ${CMAKE_CURRENT_SOURCE_DIR}/python/dngparse
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:_dng>
-    COMMENT "Generating type stubs for _dng"
-    VERBATIM
+# Made optional: if pybind11_stubgen is not installed, the build still succeeds.
+execute_process(
+    COMMAND ${PYTHON_EXECUTABLE} -c "import pybind11_stubgen"
+    RESULT_VARIABLE STUBGEN_AVAILABLE
+    OUTPUT_QUIET ERROR_QUIET
 )
+if(STUBGEN_AVAILABLE EQUAL 0)
+    add_custom_command(TARGET _dng POST_BUILD
+        COMMAND ${PYTHON_EXECUTABLE} -m pybind11_stubgen _dng
+            --output-dir ${CMAKE_CURRENT_SOURCE_DIR}/python/dngparser
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:_dng>
+        COMMENT "Generating type stubs for _dng"
+        VERBATIM
+    )
+else()
+    message(STATUS "pybind11_stubgen not found, skipping type stub generation")
+endif()
 
 # --- Install rules (scikit-build-core) ---------------------------------------
 if(DEFINED SKBUILD_PLATLIB_DIR)
-    install(TARGETS _dng LIBRARY DESTINATION dngparse)
-    install(DIRECTORY python/dngparse/
-            DESTINATION dngparse
+    install(TARGETS _dng LIBRARY DESTINATION dngparser)
+    install(DIRECTORY python/dngparser/
+            DESTINATION dngparser
             FILES_MATCHING
               PATTERN "*.py"
               PATTERN "*.pyi"
             PATTERN "__pycache__" EXCLUDE)
 else()
     install(TARGETS _dng
-            LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/python/dngparse
-            RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/python/dngparse)
+            LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/python/dngparser
+            RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/python/dngparser)
 endif()

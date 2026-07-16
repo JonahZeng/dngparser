@@ -1,4 +1,4 @@
-# dngparse
+# dngparser
 
 Fast DNG (Digital Negative) parser for machine learning datasets. Written in C++ with pybind11 bindings, returns numpy arrays with zero torch dependency.
 
@@ -19,7 +19,7 @@ Supports multiple DNG vendors:
 ## Installation
 
 ```bash
-pip install dngparse
+pip install dngparser
 ```
 
 Only depends on numpy. Install torch separately if you need it for dataset loading.
@@ -27,9 +27,9 @@ Only depends on numpy. Install torch separately if you need it for dataset loadi
 ## Quick Start
 
 ```python
-import dngparse
+import dngparser
 
-d = dngparse.load_dng("photo.dng")
+d = dngparser.load_dng("photo.dng")
 
 # DJI Pocket 4 — CFA Bayer, 1 channel
 raw = d["raw"]              # numpy.ndarray (H, W) uint16
@@ -39,7 +39,7 @@ print(d["white_level"])     # 62400
 print(d["compression"])     # 1 (uncompressed)
 
 # Apple ProRAW — LinearRaw, 3 channels, LJPEG-compressed
-d = dngparse.load_dng("IMG_5070.DNG")
+d = dngparser.load_dng("IMG_5070.DNG")
 raw = d["raw"]              # numpy.ndarray (H, W, 3) uint16
 print(d["compression"])     # 7 (LJPEG)
 print(d["bits_per_sample"]) # 12
@@ -60,7 +60,7 @@ import random
 import numpy as np
 import torch
 from torch.utils.data import Dataset
-from dngparse import load_dng
+from dngparser import load_dng
 
 
 class DngDataset(Dataset):
@@ -204,7 +204,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m build --wheel
 
 # Install
-.\.venv\Scripts\pip install --force-reinstall --no-deps dist\dngparse-0.1.0-*.whl
+.\.venv\Scripts\pip install --force-reinstall --no-deps dist\dngparser-0.1.0-*.whl
 
 # Test
 .\.venv\Scripts\python.exe tests\test_dng_parse.py
@@ -217,7 +217,7 @@ cpp/
   include/dng/       # C++ headers: TIFF reader, LJPEG decoder, DNG parser, data structs
   src/               # C++ sources: tiff_reader.cpp, ljpeg_decoder.cpp, dng_parser.cpp
   binding/           # pybind11 module exposing load_dng()
-python/dngparse/     # Python package: dng_loader.py, _dng.pyi
+python/dngparser/    # Python package: dng_loader.py, _dng.pyi
 tests/               # End-to-end test with real DNG files (DJI + Apple)
 ```
 

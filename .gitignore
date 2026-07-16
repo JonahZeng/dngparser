@@ -39,4 +39,4 @@ cmake_install.cmake
 Thumbs.db
 .DS_Store
 
-python/dngparse/_dng.pyi
+python/dngparser/_dng.pyi

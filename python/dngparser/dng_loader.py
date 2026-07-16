@@ -1,10 +1,10 @@
-"""DNG loader: thin Python wrapper around the C++ dngparse extension.
+"""DNG loader: thin Python wrapper around the C++ dngparser extension.
 
 Returns plain numpy arrays and Python primitives — no torch dependency.
 Convert to torch tensors at the call site if needed:
 
     import torch
-    from dngparse import load_dng
+    from dngparser import load_dng
     d = load_dng("photo.dng")
     raw = torch.from_numpy(d["raw"])
 """
@@ -17,7 +17,7 @@ from typing import Any
 import numpy as np
 
 # The compiled extension is installed alongside this package by scikit-build-core.
-import dngparse._dng as _dng_ext
+import dngparser._dng as _dng_ext
 
 
 def load_dng(path: str | Path) -> dict[str, Any]:

@@ -11,7 +11,7 @@ import sys
 
 import numpy as np
 
-from dngparse import load_dng
+from dngparser import load_dng
 
 
 def export_raw(raw: np.ndarray, dng_path: str, out_dir: str | None = None) -> str:

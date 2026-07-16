@@ -3,7 +3,7 @@
 ## Project Structure & Module Organization
 
 ```
-dngparse/
+dngparser/
 ├── CMakeLists.txt              # CMake build for the C++ extension
 ├── pyproject.toml              # scikit-build-core wheel build config
 ├── cpp/
@@ -11,7 +11,7 @@ dngparse/
 │   ├── include/dng/            # Headers: tiff_reader.h, dng_image.h, dng_parser.h, ljpeg_decoder.h
 │   ├── src/                    # Sources: tiff_reader.cpp, dng_parser.cpp, ljpeg_decoder.cpp
 │   └── binding/pybind_module.cpp  # pybind11 module that exposes load_dng()
-├── python/dngparse/            # Python package installed into the wheel
+├── python/dngparser/           # Python package installed into the wheel
 │   ├── __init__.py             # Re-exports load_dng, load_dng_raw_only
 │   ├── dng_loader.py           # Thin wrapper: returns numpy arrays
 │   └── _dng.pyi                # Type stubs (generated, do not hand-edit)
@@ -33,14 +33,14 @@ Build the wheel and install into the venv:
 ```powershell
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue
 .\.venv\Scripts\python.exe -m build --wheel
-.\.venv\Scripts\pip.exe install --force-reinstall --no-deps dist\dngparse-0.1.0-cp310-cp310-win_amd64.whl
+.\.venv\Scripts\pip.exe install --force-reinstall --no-deps dist\dngparser-0.1.0-cp310-cp310-win_amd64.whl
 ```
 
 Regenerate type stubs after changing the pybind11 binding:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pybind11_stubgen dngparse._dng --output-dir stubs
-Copy-Item stubs\dngparse\_dng.pyi python\dngparse\_dng.pyi -Force
+.\.venv\Scripts\python.exe -m pybind11_stubgen dngparser._dng --output-dir stubs
+Copy-Item stubs\dngparser\_dng.pyi python\dngparser\_dng.pyi -Force
 ```
 
 Run tests:
